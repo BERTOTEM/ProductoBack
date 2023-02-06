@@ -7,27 +7,105 @@ public class ProductDTO {
     @NotBlank
     private String name;
     private boolean inInventory;
+    private boolean enabled;
     private Integer min;
     private Integer max;
     private String img;
     private boolean state;
+    private long price;
 
-    public ProductDTO(String id, String name, boolean inInventory, Integer min, Integer max, String img, boolean state) {
+
+    public ProductDTO(String id, String name, boolean inInventory, boolean enabled, Integer min, Integer max, String img, boolean state, long price) {
         this.id = id;
         this.name = name;
         this.inInventory = inInventory;
+        this.enabled = enabled;
         this.min = min;
         this.max = max;
         this.img = img;
         this.state = state;
+        this.price = price;
     }
-
-    public ProductDTO(String name, boolean inInventory, Integer min, Integer max, String img, boolean state) {
+    public ProductDTO(String name, boolean inInventory, boolean enabled, Integer min, Integer max, String img, boolean state, long price) {
         this.name = name;
         this.inInventory = inInventory;
+        this.enabled = enabled;
         this.min = min;
         this.max = max;
         this.img = img;
+        this.state = state;
+        this.price = price;
+    }
+
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public void setId(String id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public boolean isInInventory() {
+        return inInventory;
+    }
+
+    public void setInInventory(boolean inInventory) {
+        this.inInventory = inInventory;
+    }
+
+    public Integer getMin() {
+        return min;
+    }
+
+    public void setMin(Integer min) {
+        this.min = min;
+    }
+
+    public Integer getMax() {
+        return max;
+    }
+
+    public void setMax(Integer max) {
+        this.max = max;
+    }
+
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
+    public boolean isState() {
+        return state;
+    }
+
+    public void setState(boolean state) {
         this.state = state;
     }
 
@@ -50,10 +128,12 @@ public class ProductDTO {
                 "id='" + id + '\'' +
                 ", name='" + name + '\'' +
                 ", inInventory=" + inInventory +
+                ", enabled=" + enabled +
                 ", min=" + min +
                 ", max=" + max +
                 ", img='" + img + '\'' +
                 ", state=" + state +
+                ", price=" + price +
                 '}';
     }
 }

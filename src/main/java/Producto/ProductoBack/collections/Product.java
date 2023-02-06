@@ -9,11 +9,20 @@ public class Product {
     private String id;
     private String name;
     private boolean inInventory;
+    private boolean enabled;
     private Integer min;
     private Integer max;
     private String img;
     private boolean state;
+    private long    price;
 
+    public boolean isEnabled() {
+        return enabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        this.enabled = enabled;
+    }
 
     public String getName() {
         return name;
@@ -54,6 +63,15 @@ public class Product {
     public String getId() {
         return id;
     }
+
+    public long getPrice() {
+        return price;
+    }
+
+    public void setPrice(long price) {
+        this.price = price;
+    }
+
     public void setId(String id) {
         this.id = id;
     }
