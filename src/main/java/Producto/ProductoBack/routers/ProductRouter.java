@@ -192,8 +192,8 @@ public class ProductRouter {
             produces = {MediaType.APPLICATION_JSON_VALUE},
             method = RequestMethod.GET,
             beanClass = ProductRouter.class,
-            beanMethod = "getpages",
-            operation = @Operation(operationId = "getpages",
+            beanMethod = "GetpagesAll",
+            operation = @Operation(operationId = "GetpagesAll",
                     responses = {
                             @ApiResponse(
                                     responseCode = "200",
@@ -205,11 +205,33 @@ public class ProductRouter {
             )
 
     )
-    public RouterFunction<ServerResponse> getpages(ListUseCase listUseCase) {
+    public RouterFunction<ServerResponse> GetpagesAll(ListUseCase listUseCase) {
         return route(GET("/pagination/{pageNumber}"),
                 request -> ok().body(listUseCase.getPages(
                         Integer.valueOf(request.pathVariable("pageNumber"))
                 ), ProductDTO.class));
+    }
+
+
+    @Bean
+    @RouterOperation(path="/getAllTrue",
+            produces={MediaType.APPLICATION_JSON_VALUE},method = RequestMethod.GET,
+            beanClass =ProductRouter.class ,
+            beanMethod = "getAllTrue",
+            operation = @Operation(operationId = "getAllTrue",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "ok",
+                                    content = @Content(schema=@Schema(implementation = ProductDTO.class))
+                            ),@ApiResponse(responseCode = "404",description ="ERROR")
+                    }))
+    public RouterFunction<ServerResponse>getAllTrue(TrueListsUseCase trueListsUseCase){
+        return route(GET("/getAllTrue"),
+                request -> ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(trueListsUseCase.apply(), ProductDTO.class)));
+
     }
 
 

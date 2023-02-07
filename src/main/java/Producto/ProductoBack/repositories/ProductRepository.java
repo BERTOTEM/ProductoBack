@@ -13,5 +13,7 @@ public interface ProductRepository extends ReactiveCrudRepository<Product,String
 
     Flux<Product> findProductByName(String name);
 
+    Flux<Product> findProductByEnabled(boolean enabled);
+
     Flux<ProductDTO> findAllBy(Pageable pageable);
 }
