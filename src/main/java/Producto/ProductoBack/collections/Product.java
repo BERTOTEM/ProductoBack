@@ -8,7 +8,7 @@ public class Product {
     @Id
     private String id;
     private String name;
-    private boolean inInventory;
+    private Integer inInventory;
     private boolean enabled;
     private Integer min;
     private Integer max;
@@ -30,12 +30,15 @@ public class Product {
     public void setName(String name) {
         this.name = name;
     }
-    public boolean isInInventory() {
+
+    public Integer getInInventory() {
         return inInventory;
     }
-    public void setInInventory(boolean inInventory) {
+
+    public void setInInventory(Integer inInventory) {
         this.inInventory = inInventory;
     }
+
     public Integer getMin() {
         return min;
     }

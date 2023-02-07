@@ -6,7 +6,7 @@ public class ProductDTO {
     private String id;
     @NotBlank
     private String name;
-    private boolean inInventory;
+    private Integer inInventory;
     private boolean enabled;
     private Integer min;
     private Integer max;
@@ -14,8 +14,10 @@ public class ProductDTO {
     private boolean state;
     private long price;
 
+    public ProductDTO() {
+    }
 
-    public ProductDTO(String id, String name, boolean inInventory, boolean enabled, Integer min, Integer max, String img, boolean state, long price) {
+    public ProductDTO(String id, String name, Integer inInventory, boolean enabled, Integer min, Integer max, String img, boolean state, long price) {
         this.id = id;
         this.name = name;
         this.inInventory = inInventory;
@@ -26,7 +28,7 @@ public class ProductDTO {
         this.state = state;
         this.price = price;
     }
-    public ProductDTO(String name, boolean inInventory, boolean enabled, Integer min, Integer max, String img, boolean state, long price) {
+    public ProductDTO(String name, Integer inInventory, boolean enabled, Integer min, Integer max, String img, boolean state, long price) {
         this.name = name;
         this.inInventory = inInventory;
         this.enabled = enabled;
@@ -69,11 +71,11 @@ public class ProductDTO {
         this.name = name;
     }
 
-    public boolean isInInventory() {
+    public Integer getInInventory() {
         return inInventory;
     }
 
-    public void setInInventory(boolean inInventory) {
+    public void setInInventory(Integer inInventory) {
         this.inInventory = inInventory;
     }
 

@@ -14,7 +14,7 @@ public class MapperUtils {
             product.setId(id);
             product.setName(updateProduct.getName());
             product.setEnabled(updateProduct.isEnabled());
-            product.setInInventory(updateProduct.isInInventory());
+            product.setInInventory(updateProduct.getInInventory());
             product.setMin(updateProduct.getMin());
             product.setMax(updateProduct.getMax());
             product.setImg(updateProduct.getImg());
@@ -30,8 +30,8 @@ public class MapperUtils {
         return entity -> new ProductDTO(
                 entity.getId(),
                 entity.getName(),
+                entity.getInInventory(),
                 entity.isEnabled(),
-                entity.isInInventory(),
                 entity.getMin(),
                 entity.getMax(),
                 entity.getImg(),
