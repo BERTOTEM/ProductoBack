@@ -214,11 +214,11 @@ public class ProductRouter {
 
 
     @Bean
-    @RouterOperation(path="/getAllTrue",
+    @RouterOperation(path="/getAllTruStateAndEnabled",
             produces={MediaType.APPLICATION_JSON_VALUE},method = RequestMethod.GET,
             beanClass =ProductRouter.class ,
-            beanMethod = "getAllTrue",
-            operation = @Operation(operationId = "getAllTrue",
+            beanMethod = "getAllTruStateAndEnabled",
+            operation = @Operation(operationId = "getAllTruStateAndEnabled",
                     responses = {
                             @ApiResponse(
                                     responseCode = "200",
@@ -226,8 +226,8 @@ public class ProductRouter {
                                     content = @Content(schema=@Schema(implementation = ProductDTO.class))
                             ),@ApiResponse(responseCode = "404",description ="ERROR")
                     }))
-    public RouterFunction<ServerResponse>getAllTrue(TrueListsUseCase trueListsUseCase){
-        return route(GET("/getAllTrue"),
+    public RouterFunction<ServerResponse>getAllTruStateAndEnabled(TrueListsUseCase trueListsUseCase){
+        return route(GET("/getAllTruStateAndEnabled"),
                 request -> ok()
                         .contentType(MediaType.APPLICATION_JSON)
                         .body(BodyInserters.fromPublisher(trueListsUseCase.apply(), ProductDTO.class)));

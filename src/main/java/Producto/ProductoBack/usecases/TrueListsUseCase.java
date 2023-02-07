@@ -1,5 +1,6 @@
 package Producto.ProductoBack.usecases;
 
+import Producto.ProductoBack.collections.Product;
 import Producto.ProductoBack.model.ProductDTO;
 import Producto.ProductoBack.repositories.ProductRepository;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,11 @@ public class TrueListsUseCase  {
 
     public Flux<ProductDTO> apply() {
         return productRepository.findProductByEnabled(true)
-                .map(mapperUtils.mapEntityToProduct());
+                        .filter(productDTO->productDTO
+                        .isState()).map(mapperUtils.mapEntityToProduct());
+
+
+
     }
 
 
