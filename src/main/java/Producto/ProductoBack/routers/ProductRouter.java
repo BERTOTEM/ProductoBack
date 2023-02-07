@@ -23,7 +23,7 @@ public class ProductRouter {
 
 
     @Bean
-    public RouterFunction<ServerResponse>getall(ListUseCase listUseCase){
+    public RouterFunction<ServerResponse>getAllProducts(ListUseCase listUseCase){
         return route(GET("/getAllProducts"),
                 request -> ok()
                         .contentType(MediaType.APPLICATION_JSON)
