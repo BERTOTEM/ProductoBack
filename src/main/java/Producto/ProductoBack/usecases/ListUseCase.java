@@ -2,6 +2,7 @@ package Producto.ProductoBack.usecases;
 
 import Producto.ProductoBack.model.ProductDTO;
 import Producto.ProductoBack.repositories.ProductRepository;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Flux;
@@ -21,7 +22,13 @@ public class ListUseCase implements Supplier<Flux<ProductDTO>> {
 
     @Override
     public Flux<ProductDTO> get() {
-        return productRepository.findAll().map(mapperUtils.mapEntityToProduct());
+        return productRepository
+                .findAll().map(mapperUtils.mapEntityToProduct());
+    }
+
+    public  Flux<ProductDTO> getPages(int pageNumber) {
+        PageRequest pageRequest = PageRequest.of(pageNumber, 3);
+        return productRepository.findAllBy(pageRequest);
     }
 
 }
