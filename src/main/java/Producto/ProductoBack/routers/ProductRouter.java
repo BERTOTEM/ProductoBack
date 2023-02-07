@@ -2,6 +2,7 @@ package Producto.ProductoBack.routers;
 
 import Producto.ProductoBack.model.ProductDTO;
 import Producto.ProductoBack.usecases.CreateUseCase;
+import Producto.ProductoBack.usecases.DeleteUseCase;
 import Producto.ProductoBack.usecases.ListUseCase;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -43,6 +44,18 @@ public class ProductRouter {
                 POST("/create").and(accept(MediaType.APPLICATION_JSON)),
                 request -> request.bodyToMono(ProductDTO.class).flatMap(executor)
         );
+
+
+
+
+    }
+    @Bean
+    public RouterFunction<ServerResponse>Delete(DeleteUseCase deleteUseCase){
+        return route(DELETE("/delete/{id}").and(accept(MediaType.APPLICATION_JSON)),
+                request -> ServerResponse.accepted().contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(deleteUseCase.apply(request.pathVariable("id")),void.class))
+
+                );
 
 
     }
