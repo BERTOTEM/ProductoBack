@@ -20,7 +20,9 @@ public class OthersListUseCase implements Function<String,Flux<ProductDTO>> {
     }
     @Override
     public Flux<ProductDTO> apply(String name) {
-        return productRepository.findProductByName(name)
-                .map(mapperUtils.mapEntityToProduct());
+        return productRepository.findProductByName(name).filter(p1->p1
+                        .isState()).filter(p2->p2
+                        .isEnabled())
+                        .map(mapperUtils.mapEntityToProduct());
     }
 }
