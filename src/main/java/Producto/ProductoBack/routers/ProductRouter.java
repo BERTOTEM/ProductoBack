@@ -1,6 +1,8 @@
 package Producto.ProductoBack.routers;
 
+import Producto.ProductoBack.collections.Product;
 import Producto.ProductoBack.model.ProductDTO;
+import Producto.ProductoBack.repositories.ProductRepository;
 import Producto.ProductoBack.usecases.*;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
@@ -27,7 +29,11 @@ import static org.springframework.web.reactive.function.server.RouterFunctions.r
 import static org.springframework.web.reactive.function.server.ServerResponse.ok;
 @Configuration
 public class ProductRouter {
+    private final ProductRepository productRepository;
 
+    public ProductRouter(ProductRepository productRepository) {
+        this.productRepository = productRepository;
+    }
 
 
     @Bean
@@ -41,7 +47,7 @@ public class ProductRouter {
                                     responseCode = "200",
                                     description = "ok",
                                     content = @Content(schema=@Schema(implementation = ProductDTO.class))
-                            ),@ApiResponse(responseCode = "404",description ="ERROR")
+                            ),@ApiResponse(responseCode = "404",description = "Error")
                     }))
     public RouterFunction<ServerResponse>getAllProducts(ListUseCase listUseCase){
         return route(GET("/getAllProducts"),
@@ -65,7 +71,7 @@ public class ProductRouter {
                                     responseCode = "200",
                                     description = "OK",
                                     content = @Content(schema = @Schema(implementation = ProductDTO.class))
-                            ), @ApiResponse(responseCode = "404",description = "El libro no se pudo crear")
+                            ), @ApiResponse(responseCode = "404",description = "Error")
                     },
                     requestBody = @RequestBody(
                             content = @Content(schema = @Schema(
@@ -104,7 +110,7 @@ public class ProductRouter {
                                     description = "OK",
                                     content = @Content(schema = @Schema(implementation = ProductDTO.class))
                             ),
-                            @ApiResponse(responseCode = "404",description = "El libro no se encontró")
+                            @ApiResponse(responseCode = "404",description = "Error")
                     },parameters = {
                     @Parameter(in = ParameterIn.PATH,name = "id")}
             ))
@@ -132,7 +138,7 @@ public class ProductRouter {
                                     description = "OK",
                                     content = @Content(schema = @Schema(implementation = ProductDTO.class))
                             ),
-                            @ApiResponse(responseCode = "404",description = "El libro no se encontró ")
+                            @ApiResponse(responseCode = "404",description = "Error")
                     }
                     ,
                     requestBody = @RequestBody(
@@ -151,7 +157,6 @@ public class ProductRouter {
                                         .contentType(MediaType.APPLICATION_JSON)
                                         .bodyValue(result))
                         )
-
         );
 
     }
@@ -168,7 +173,7 @@ public class ProductRouter {
                                     responseCode = "200",
                                     description = "OK",
                                     content = @Content(schema = @Schema(implementation = ProductDTO.class))
-                            ),@ApiResponse(responseCode = "404",description = "El libro no se  encontró")
+                            ),@ApiResponse(responseCode = "404",description = "Error")
                     },parameters = {
                     @Parameter(in = ParameterIn.PATH,name = "name")}
             )
@@ -199,7 +204,7 @@ public class ProductRouter {
                                     responseCode = "200",
                                     description = "OK",
                                     content = @Content(schema = @Schema(implementation = ProductDTO.class))
-                            ),@ApiResponse(responseCode = "404",description = "El libro no se  encontró")
+                            ),@ApiResponse(responseCode = "404",description = "Error")
                     },parameters = {
                     @Parameter(in = ParameterIn.PATH,name = "pageNumber")}
             )
@@ -214,25 +219,33 @@ public class ProductRouter {
 
 
     @Bean
-    @RouterOperation(path="/getAllTruStateAndEnabled",
-            produces={MediaType.APPLICATION_JSON_VALUE},method = RequestMethod.GET,
-            beanClass =ProductRouter.class ,
-            beanMethod = "getAllTruStateAndEnabled",
-            operation = @Operation(operationId = "getAllTruStateAndEnabled",
+    @RouterOperation(path="/changeState/{id}",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.PATCH,
+            beanClass = ProductRouter.class,
+            beanMethod = "patchState",
+            operation = @Operation(operationId = "patchState",
                     responses = {
                             @ApiResponse(
                                     responseCode = "200",
-                                    description = "ok",
-                                    content = @Content(schema=@Schema(implementation = ProductDTO.class))
-                            ),@ApiResponse(responseCode = "404",description ="ERROR")
-                    }))
-    public RouterFunction<ServerResponse>getAllTruStateAndEnabled(TrueListsUseCase trueListsUseCase){
-        return route(GET("/getAllTruStateAndEnabled"),
-                request -> ok()
-                        .contentType(MediaType.APPLICATION_JSON)
-                        .body(BodyInserters.fromPublisher(trueListsUseCase.apply(), ProductDTO.class)));
+                                    description = "OK",
+                                    content = @Content(schema = @Schema(implementation = ProductDTO.class))
+                            ),@ApiResponse(responseCode = "404",description = "Error")
+                    },parameters = {
+                    @Parameter(in = ParameterIn.PATH,name = "id")}
+            )
 
+    )
+    public RouterFunction<ServerResponse> patchState(DeleteLogicoUseCase deleteLogicoUseCase) {
+        return route(
+                PATCH("/changeState/{id}").and(accept(MediaType.APPLICATION_JSON)),
+                request -> ServerResponse.accepted()
+                        .body(BodyInserters.fromPublisher(deleteLogicoUseCase.apply(request.pathVariable("id")),Product.class))
+        );
     }
+
+
+
 
 
 }

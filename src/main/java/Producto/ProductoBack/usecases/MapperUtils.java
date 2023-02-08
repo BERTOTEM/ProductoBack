@@ -25,7 +25,6 @@ public class MapperUtils {
         };
     }
 
-
     public Function<Product, ProductDTO> mapEntityToProduct() {
         return entity -> new ProductDTO(
                 entity.getId(),

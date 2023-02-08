@@ -27,8 +27,10 @@ public class ListUseCase implements Supplier<Flux<ProductDTO>> {
     }
 
     public  Flux<ProductDTO> getPages(int pageNumber) {
-        PageRequest pageRequest = PageRequest.of(pageNumber, 3);
-        return productRepository.findAllBy(pageRequest);
+        PageRequest pageRequest = PageRequest.of(pageNumber, 10);
+        return productRepository.findAllBy(pageRequest).filter(p1->p1
+                .isState()).filter(p2->p2
+                .isEnabled());
     }
 
 }
