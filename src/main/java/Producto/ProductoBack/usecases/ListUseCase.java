@@ -23,7 +23,9 @@ public class ListUseCase implements Supplier<Flux<ProductDTO>> {
     @Override
     public Flux<ProductDTO> get() {
         return productRepository
-                .findAll().map(mapperUtils.mapEntityToProduct());
+                .findAll().filter(p1->p1
+                .isState()).filter(p2->p2
+                .isEnabled()).map(mapperUtils.mapEntityToProduct());
     }
 
     public  Flux<ProductDTO> getPages(int pageNumber) {

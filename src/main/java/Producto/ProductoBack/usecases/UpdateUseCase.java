@@ -8,6 +8,9 @@ import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Mono;
 
 import java.util.Objects;
+
+import static java.lang.Integer.parseInt;
+
 @Service
 @Validated
 public class UpdateUseCase  implements  SaveProduct{
@@ -26,6 +29,19 @@ public class UpdateUseCase  implements  SaveProduct{
         return productRepository
                 .save(mapperUtils.mapperToProduct(productDTO.getId()).apply(productDTO))
                 .map(Product::getId);
+    }
+
+    public  Mono<Product>UpdateID(String id,String quantity){
+        return productRepository.findById(id)
+                .flatMap(productold -> {
+                            if (((productold.getInInventory()-productold.getMin()) >= parseInt(quantity)) && productold.getMax()>=parseInt(quantity)) {
+                                productold.setInInventory(productold.getInInventory() - parseInt(quantity));
+                            } else {
+                                productold.setInInventory(productold.getInInventory());
+                            }
+                            return productRepository.save(productold);
+                }
+                );
     }
 
 

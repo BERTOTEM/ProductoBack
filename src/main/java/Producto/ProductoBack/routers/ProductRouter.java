@@ -59,6 +59,37 @@ public class ProductRouter {
 
 
     @Bean
+    @RouterOperation(path="/get/{id}",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.GET,
+            beanClass = ProductRouter.class,
+            beanMethod = "get",
+            operation = @Operation(operationId = "get",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "OK",
+                                    content = @Content(schema = @Schema(implementation = ProductDTO.class))
+                            ),@ApiResponse(responseCode = "404",description = "El libro no se  encontró")
+                    },parameters = {
+                    @Parameter(in = ParameterIn.PATH,name = "id")}
+            )
+
+    )
+    public RouterFunction<ServerResponse> get(GetUseCase getUseCase) {
+        return route(
+                GET("/get/{id}").and(accept(MediaType.APPLICATION_JSON)),
+                request -> ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(getUseCase.apply(
+                                        request.pathVariable("id")),
+                                ProductDTO.class
+                        ))
+        );
+    }
+
+
+    @Bean
     @RouterOperation(
             path = "/create",
             produces = {MediaType.APPLICATION_JSON_VALUE},
@@ -242,6 +273,17 @@ public class ProductRouter {
                 request -> ServerResponse.accepted()
                         .body(BodyInserters.fromPublisher(deleteLogicoUseCase.apply(request.pathVariable("id")),Product.class))
         );
+    }
+    @Bean
+    public RouterFunction<ServerResponse>updateID(UpdateUseCase updateUseCase){
+        return route(PATCH("/update/{id}/{quantity}").and(accept(MediaType.APPLICATION_JSON)),
+                request -> ServerResponse.accepted().contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(updateUseCase.UpdateID(request.pathVariable("id")
+                                ,request.pathVariable("quantity")),Product.class))
+
+        );
+
+
     }
 
 
