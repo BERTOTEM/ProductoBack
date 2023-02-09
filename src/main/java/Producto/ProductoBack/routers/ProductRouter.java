@@ -152,9 +152,7 @@ public class ProductRouter {
 
                 );
 
-
     }
-
     @Bean
     @RouterOperation(
             path = "/update",
@@ -275,10 +273,29 @@ public class ProductRouter {
         );
     }
     @Bean
+    @RouterOperation(path="/update/{id}/{quantity}",
+            produces = {MediaType.APPLICATION_JSON_VALUE},
+            method = RequestMethod.PATCH,
+            beanClass = ProductRouter.class,
+            beanMethod = "updateID",
+            operation = @Operation(operationId = "updateID",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "OK",
+                                    content = @Content(schema = @Schema(implementation = ProductDTO.class))
+                            ),@ApiResponse(responseCode = "404",description = "Error")
+                    },parameters = {
+                    @Parameter(in = ParameterIn.PATH,name = "id"),
+                    @Parameter(in = ParameterIn.PATH,name = "quantity")}
+            )
+
+    )
     public RouterFunction<ServerResponse>updateID(UpdateUseCase updateUseCase){
         return route(PATCH("/update/{id}/{quantity}").and(accept(MediaType.APPLICATION_JSON)),
                 request -> ServerResponse.accepted().contentType(MediaType.APPLICATION_JSON)
-                        .body(BodyInserters.fromPublisher(updateUseCase.UpdateID(request.pathVariable("id")
+                        .body(BodyInserters.fromPublisher(updateUseCase
+                                .UpdateID(request.pathVariable("id")
                                 ,request.pathVariable("quantity")),Product.class))
 
         );

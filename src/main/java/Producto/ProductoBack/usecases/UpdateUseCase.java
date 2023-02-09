@@ -34,7 +34,8 @@ public class UpdateUseCase  implements  SaveProduct{
     public  Mono<Product>UpdateID(String id,String quantity){
         return productRepository.findById(id)
                 .flatMap(productold -> {
-                            if (((productold.getInInventory()-productold.getMin()) >= parseInt(quantity)) && productold.getMax()>=parseInt(quantity)) {
+                            if (((productold.getInInventory()-productold.getMin()) >= parseInt(quantity))
+                                    && productold.getMax()>=parseInt(quantity)) {
                                 productold.setInInventory(productold.getInInventory() - parseInt(quantity));
                             } else {
                                 productold.setInInventory(productold.getInInventory());
