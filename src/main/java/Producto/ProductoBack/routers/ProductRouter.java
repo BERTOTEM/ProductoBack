@@ -70,7 +70,7 @@ public class ProductRouter {
                                     responseCode = "200",
                                     description = "OK",
                                     content = @Content(schema = @Schema(implementation = ProductDTO.class))
-                            ),@ApiResponse(responseCode = "404",description = "El libro no se  encontró")
+                            ),@ApiResponse(responseCode = "404",description = "Error")
                     },parameters = {
                     @Parameter(in = ParameterIn.PATH,name = "id")}
             )
@@ -127,32 +127,7 @@ public class ProductRouter {
 
 
     }
-    @Bean
-    @RouterOperation(
-            path = "/delete/{id}",
-            produces = {MediaType.APPLICATION_JSON_VALUE},
-            method = RequestMethod.DELETE,
-            beanClass = ProductRouter.class,
-            beanMethod = "Delete",
-            operation = @Operation(operationId = "Delete",
-                    responses = {
-                            @ApiResponse(
-                                    responseCode = "200",
-                                    description = "OK",
-                                    content = @Content(schema = @Schema(implementation = ProductDTO.class))
-                            ),
-                            @ApiResponse(responseCode = "404",description = "Error")
-                    },parameters = {
-                    @Parameter(in = ParameterIn.PATH,name = "id")}
-            ))
-    public RouterFunction<ServerResponse>Delete(DeleteUseCase deleteUseCase){
-        return route(DELETE("/delete/{id}").and(accept(MediaType.APPLICATION_JSON)),
-                request -> ServerResponse.accepted().contentType(MediaType.APPLICATION_JSON)
-                        .body(BodyInserters.fromPublisher(deleteUseCase.apply(request.pathVariable("id")),void.class))
 
-                );
-
-    }
     @Bean
     @RouterOperation(
             path = "/update",

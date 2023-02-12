@@ -14,7 +14,7 @@ public class Product {
     private Integer max;
     private String img;
     private boolean state;
-    private long    price;
+    private Long    price;
 
     public boolean isEnabled() {
         return enabled;
@@ -67,11 +67,11 @@ public class Product {
         return id;
     }
 
-    public long getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 

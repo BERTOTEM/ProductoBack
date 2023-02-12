@@ -23,16 +23,13 @@ public class ListUseCase implements Supplier<Flux<ProductDTO>> {
     @Override
     public Flux<ProductDTO> get() {
         return productRepository
-                .findAll().filter(p1->p1
-                .isState()).filter(p2->p2
-                .isEnabled()).map(mapperUtils.mapEntityToProduct());
+                .findAll().map(mapperUtils.mapEntityToProduct());
     }
 
     public  Flux<ProductDTO> getPages(int pageNumber) {
-        PageRequest pageRequest = PageRequest.of(pageNumber, 10);
+        PageRequest pageRequest = PageRequest.of(pageNumber, 6);
         return productRepository.findAllBy(pageRequest).filter(p1->p1
-                .isState()).filter(p2->p2
-                .isEnabled());
+                .isState());
     }
 
 }

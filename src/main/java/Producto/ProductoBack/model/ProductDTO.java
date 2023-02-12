@@ -12,12 +12,12 @@ public class ProductDTO {
     private Integer max;
     private String img;
     private boolean state;
-    private long price;
+    private Long price;
 
     public ProductDTO() {
     }
 
-    public ProductDTO(String id, String name, Integer inInventory, boolean enabled, Integer min, Integer max, String img, boolean state, long price) {
+    public ProductDTO(String id, String name, Integer inInventory, boolean enabled, Integer min, Integer max, String img, boolean state, Long price) {
         this.id = id;
         this.name = name;
         this.inInventory = inInventory;
@@ -28,7 +28,7 @@ public class ProductDTO {
         this.state = state;
         this.price = price;
     }
-    public ProductDTO(String name, Integer inInventory, boolean enabled, Integer min, Integer max, String img, boolean state, long price) {
+    public ProductDTO(String name, Integer inInventory, boolean enabled, Integer min, Integer max, String img, boolean state, Long price) {
         this.name = name;
         this.inInventory = inInventory;
         this.enabled = enabled;
@@ -47,11 +47,11 @@ public class ProductDTO {
         this.enabled = enabled;
     }
 
-    public long getPrice() {
+    public Long getPrice() {
         return price;
     }
 
-    public void setPrice(long price) {
+    public void setPrice(Long price) {
         this.price = price;
     }
 
