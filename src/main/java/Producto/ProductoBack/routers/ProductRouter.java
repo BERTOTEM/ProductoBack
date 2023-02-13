@@ -14,7 +14,10 @@ import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import org.springdoc.core.annotations.RouterOperation;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.reactive.function.BodyInserter;
 import org.springframework.web.reactive.function.BodyInserters;
@@ -37,6 +40,7 @@ public class ProductRouter {
 
 
     @Bean
+    @ExceptionHandler(IllegalAccessError.class)
     @RouterOperation(path="/getAllProducts",
             produces={MediaType.APPLICATION_JSON_VALUE},method = RequestMethod.GET,
             beanClass =ProductRouter.class ,
@@ -47,7 +51,7 @@ public class ProductRouter {
                                     responseCode = "200",
                                     description = "ok",
                                     content = @Content(schema=@Schema(implementation = ProductDTO.class))
-                            ),@ApiResponse(responseCode = "404",description = "Error")
+                            ),@ApiResponse(responseCode = "400",description = "Bad request")
                     }))
     public RouterFunction<ServerResponse>getAllProducts(ListUseCase listUseCase){
         return route(GET("/getAllProducts"),
@@ -71,6 +75,7 @@ public class ProductRouter {
                                     description = "OK",
                                     content = @Content(schema = @Schema(implementation = ProductDTO.class))
                             ),@ApiResponse(responseCode = "404",description = "Error")
+
                     },parameters = {
                     @Parameter(in = ParameterIn.PATH,name = "id")}
             )
@@ -234,7 +239,7 @@ public class ProductRouter {
                                     responseCode = "200",
                                     description = "OK",
                                     content = @Content(schema = @Schema(implementation = ProductDTO.class))
-                            ),@ApiResponse(responseCode = "404",description = "Error")
+                            ),@ApiResponse(responseCode = "500",description  = "Cantidad con error")
                     },parameters = {
                     @Parameter(in = ParameterIn.PATH,name = "id")}
             )
