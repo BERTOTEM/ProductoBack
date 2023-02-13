@@ -6,6 +6,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.validation.annotation.Validated;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 
 import java.util.function.Supplier;
 
@@ -30,6 +31,12 @@ public class ListUseCase implements Supplier<Flux<ProductDTO>> {
         PageRequest pageRequest = PageRequest.of(pageNumber, 6);
         return productRepository.findAllBy(pageRequest).filter(p1->p1
                 .isState());
+    }
+
+    public Mono<Integer> getTotalPages() {
+        Mono<Integer> result = productRepository.count().map(count -> (int) Math.ceil(count / 5) + 1);
+        return result;
+
     }
 
 }

@@ -285,6 +285,35 @@ public class ProductRouter {
 
 
 
+    @Bean
+    @RouterOperation(path="/totalPages",
+            produces={MediaType.APPLICATION_JSON_VALUE},method = RequestMethod.GET,
+            beanClass = ProductRouter.class ,
+            beanMethod = "getTotalPages",
+            operation = @Operation(operationId = "getTotalPages",
+                    responses = {
+                            @ApiResponse(
+                                    responseCode = "200",
+                                    description = "ok",
+                                    content = @Content(schema=@Schema(implementation = Integer.class))
+                            ),@ApiResponse(responseCode = "404",description ="ERROR")
+                    }))
+    public RouterFunction<ServerResponse> getTotalPages(ListUseCase listUseCase) {
+        return route(GET("/totalPages"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(listUseCase.getTotalPages(), Integer.class))
+        );
+
+
+
+
+
+
+    }
+
+
+
 
 
 }

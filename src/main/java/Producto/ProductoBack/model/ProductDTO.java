@@ -1,17 +1,24 @@
 package Producto.ProductoBack.model;
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.Positive;
+import javax.validation.constraints.PositiveOrZero;
 import java.util.Objects;
 
 public class ProductDTO {
     private String id;
-    @NotBlank
+    @NotBlank(message = "El nombre no puede estar vacio")
     private String name;
+    @PositiveOrZero
     private Integer inInventory;
     private boolean enabled;
+    @Positive
     private Integer min;
+    @Positive
     private Integer max;
+    @NotBlank
     private String img;
     private boolean state;
+    @Positive
     private Long price;
 
     public ProductDTO() {
