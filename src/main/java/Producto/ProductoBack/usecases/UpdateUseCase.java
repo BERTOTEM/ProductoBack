@@ -52,7 +52,7 @@ public class UpdateUseCase  implements  SaveProduct{
                             } else {
                                 productold.setInInventory(productold.getInInventory());
 
-                                return Mono.error(new IllegalAccessException("hola"));
+                                return Mono.error(new IllegalAccessException("error del sistema"));
 
                             }
                             return productRepository.save(productold);
