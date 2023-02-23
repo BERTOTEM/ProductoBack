@@ -311,6 +311,14 @@ public class ProductRouter {
 
 
     }
+    @Bean
+    public RouterFunction<ServerResponse> countProducts(GetUseCase GetTotalProducts ) {
+        return route(GET("/countProducts"),
+                request -> ServerResponse.ok()
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .body(BodyInserters.fromPublisher(GetTotalProducts.GetTotalProducts(), Long.class))
+        );
+    }
 
 
 

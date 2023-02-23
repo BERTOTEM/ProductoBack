@@ -29,4 +29,11 @@ public class GetUseCase implements Function<String, Mono<ProductDTO>> {
                 .map(mapperUtils.mapEntityToProduct());
 
     }
+
+    public Mono<Long> GetTotalProducts() {
+        System.out.println(productRepository.count());
+        return  productRepository
+                .findAll().filter(p1->p1
+                .isState()).count();
+    }
 }
